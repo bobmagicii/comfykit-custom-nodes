@@ -11,7 +11,7 @@ and then have a text widget show me all the triggers in play so I can work them
 into my prompts.
 
 TODO: make the preset number pull a line number instead. then just have
-`.tp.text` (trigger positive) and `.tn.txt` (trigger negative) files.
+`.tp.txt` (trigger positive) and `.tn.txt` (trigger negative) files.
 
 ## TypecasterImage
 
