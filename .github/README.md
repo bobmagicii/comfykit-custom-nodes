@@ -10,6 +10,9 @@ I like to copy the trigger words out of the website, put them in those presets
 and then have a text widget show me all the triggers in play so I can work them
 into my prompts.
 
+TODO: make the preset number pull a line number instead. then just have
+`.tp.text` (trigger positive) and `.tn.txt` (trigger negative) files.
+
 ## TypecasterImage
 
 Takes an image, returns the same image. Hard typecasted. This was to fix
