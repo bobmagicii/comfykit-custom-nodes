@@ -51,9 +51,24 @@ class LoraThree:
 	@staticmethod
 	def FetchLoraFileList():
 
-		out = folder_paths.get_filename_list("loras")
+		out = folder_paths.get_filename_list('loras')
 
 		return out
+
+	@staticmethod
+	def FetchLoraPresetList():
+
+		paths = folder_paths.folder_names_and_paths['loras']
+		exts = set([ '.txt', '.preset' ])
+		out = set()
+
+		for path in paths[0]:
+			files, fall = folder_paths.recursive_search(path)
+			out.update(folder_paths.filter_files_extensions(
+				files, exts
+			))
+
+		return sorted(list(out))
 
 	################################################################
 	################################################################
@@ -62,7 +77,10 @@ class LoraThree:
 	def INPUT_TYPES(cls):
 
 		loras = cls.FetchLoraFileList()
-		loras.insert(0, "None")
+		loras.insert(0, 'None')
+
+		presets = cls.FetchLoraPresetList()
+		presets.insert(0, 'None')
 
 		fieldPreset = ("INT", {
 			"default": 0, "min": 0, "max": 99,
@@ -78,17 +96,17 @@ class LoraThree:
 			"model": ("MODEL", ),
 			"clip": ("CLIP", ),
 			"lora1": (loras, ),
-			"lora1_tgr_preset": fieldPreset,
-			"lora1_str_model": fieldStr,
-			"lora1_str_clip": fieldStr,
+			'l1_preset': (presets, ),
+			"l1_mstr": fieldStr,
+			"l1_cstr": fieldStr,
 			"lora2": (loras, ),
-			"lora2_tgr_preset": fieldPreset,
-			"lora2_str_model": fieldStr,
-			"lora2_str_clip": fieldStr,
+			'l2_preset': (presets, ),
+			"l2_mstr": fieldStr,
+			"l2_cstr": fieldStr,
 			"lora3": (loras, ),
-			"lora3_tgr_preset": fieldPreset,
-			"lora3_str_model": fieldStr,
-			"lora3_str_clip": fieldStr
+			'l3_preset': (presets, ),
+			"l3_mstr": fieldStr,
+			"l3_cstr": fieldStr,
 		} }
 
 		return output
@@ -99,9 +117,9 @@ class LoraThree:
 	@classmethod
 	def IS_CHANGED(
 		cls, model, clip,
-		lora1, lora1_tgr_preset, lora1_str_model, lora1_str_clip,
-		lora2, lora2_tgr_preset, lora2_str_model, lora2_str_clip,
-		lora3, lora3_tgr_preset, lora3_str_model, lora3_str_clip
+		lora1, l1_preset, l1_mstr, l1_cstr,
+		lora2, l2_preset, l2_mstr, l2_cstr,
+		lora3, l3_preset, l3_mstr, l3_cstr
 	):
 
 		##self.Bumper += self.Bumper
@@ -119,15 +137,15 @@ class LoraThree:
 
 	def onRun(
 		self, model, clip,
-		lora1, lora1_tgr_preset, lora1_str_model, lora1_str_clip,
-		lora2, lora2_tgr_preset, lora2_str_model, lora2_str_clip,
-		lora3, lora3_tgr_preset, lora3_str_model, lora3_str_clip
+		lora1, l1_preset, l1_mstr, l1_cstr,
+		lora2, l2_preset, l2_mstr, l2_cstr,
+		lora3, l3_preset, l3_mstr, l3_cstr
 	):
 
 		lindex = [
-			LoraConfig(lora1, lora1_tgr_preset, lora1_str_model, lora1_str_clip),
-			LoraConfig(lora2, lora2_tgr_preset, lora2_str_model, lora2_str_clip),
-			LoraConfig(lora3, lora3_tgr_preset, lora3_str_model, lora3_str_clip)
+			LoraConfig(lora1, l1_preset, l1_mstr, l1_cstr),
+			LoraConfig(lora2, l2_preset, l2_mstr, l2_cstr),
+			LoraConfig(lora3, l3_preset, l3_mstr, l3_cstr)
 		]
 
 		# read the preset files to generate a list of all the triggers
@@ -184,11 +202,10 @@ class LoraThree:
 			if(lora.name == 'None'):
 				continue
 
-			if(lora.preset <= 0):
+			if(lora.preset == 'None'):
 				continue
 
-			lpath = folder_paths.get_full_path('loras', lora.name)
-			lpath = lpath.replace('.safetensors', f".tp{lora.preset:02d}.txt")
+			lpath = folder_paths.get_full_path('loras', lora.preset)
 
 			if(not os.path.isfile(lpath)):
 				self.log(f'{lora.name} preset not found {lora.preset}')
@@ -197,12 +214,13 @@ class LoraThree:
 			self.log(f'{lora.name} preset {lpath}')
 
 			lfile = open(lpath, 'r')
-			output.append(lfile.readline())
+			line = lfile.readline()
+			output.append(f'({line})')
 			lfile.close()
 
 		########
 
-		return ', '.join(output)
+		return ', \n\n'.join(output)
 
 	################################################################
 	################################################################
