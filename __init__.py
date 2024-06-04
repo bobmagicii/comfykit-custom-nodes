@@ -1,15 +1,18 @@
 from .nodes.LoraWithMeta import *
+from .nodes.LoraThree import *
 from .nodes.TypecasterImage import *
 from .nodes.TypecasterLatent import *
 
 NODE_CLASS_MAPPINGS = {
 	"LoraWithMeta": LoraWithMeta,
+	"LoraThree": LoraThree,
 	"TypecasterImage": TypecasterImage,
 	"TypecasterLatent": TypecasterLatent
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-	"LoraWithMeta": "LoRA+Metadata",
+	"LoraWithMeta": "[Deprecated] LoRA+Metadata",
+	"LoraThree": "LoRA3",
 	"Recast Image": TypecasterImage,
 	"Recast Latent": TypecasterLatent
 }
