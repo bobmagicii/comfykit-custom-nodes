@@ -2,7 +2,7 @@
 
 ## LoraStackFiveSimple (LoRA S5)
 
-Accepts 3 LoRAs to blend and a weight value to apply. It applies the same
+Accepts 5 LoRAs to blend and a weight value to apply. It applies the same
 weight to both the Model and CLIP as I never found myself with an obvious
 positive result when desyncing them. Does not mean it cannot, I just do not
 and therefore did this to save screen space on the home view of the workflow.
