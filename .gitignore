@@ -1,3 +1,4 @@
 # things to ignore
 
 **/__pycache__/**
+.DS_Store
