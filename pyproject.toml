@@ -1,0 +1,14 @@
+[project]
+name = "comfykit-custom-nodes"
+description = "Nodes:LoraWithMetadata, TypecasterImage."
+version = "1.0.0"
+license = "LICENSE"
+
+[project.urls]
+Repository = "https://github.com/bobmagicii/comfykit-custom-nodes"
+#  Used by Comfy Registry https://comfyregistry.org
+
+[tool.comfy]
+PublisherId = "bobmagicii"
+DisplayName = "comfykit-custom-nodes"
+Icon = ""
